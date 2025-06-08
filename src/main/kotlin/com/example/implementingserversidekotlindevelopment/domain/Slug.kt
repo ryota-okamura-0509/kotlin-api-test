@@ -4,6 +4,7 @@ import ValidationError
 import arrow.core.EitherNel
 import arrow.core.leftNel
 import arrow.core.right
+import java.util.UUID
 
 interface Slug {
     val value: String
@@ -21,6 +22,15 @@ interface Slug {
                 return  CreationError.ValidFormat(slug).leftNel()
             }
             return ValidatedSlug(slug).right()
+        }
+
+        /**
+         * 引数有りの場合、UUID から生成
+         *
+         * @return
+         */
+        fun new(): Slug {
+            return ValidatedSlug(UUID.randomUUID().toString().split("-").joinToString(""))
         }
     }
 
